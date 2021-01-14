@@ -1,0 +1,70 @@
+package tpe.procesos.conexiones;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.Properties;
+
+import javax.xml.rpc.holders.IntHolder;
+import javax.xml.rpc.holders.StringHolder;
+import org.apache.axis.AxisFault;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import mc_style.functions.soap.sap.document.sap_com.Zbn_zffi_ce_act_uuid_ingStub;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoFiscalIng;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoRelIng;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoIng;
+
+public class LlamadosWS {
+	ZefiCeDoctoFiscalIng []doctofiscaling=new ZefiCeDoctoFiscalIng[1];
+	ZefiCeDoctoFiscalIng objFiscaling;
+	ZefiCeDoctoRelIng []doctoreling=new ZefiCeDoctoRelIng[1];
+	ZefiCeDoctoRelIng objToreling;
+	ZefiCeDoctoIng doctoing;
+	StringHolder exMensaje;
+	IntHolder exRetorno;
+	Zbn_zffi_ce_act_uuid_ingStub objWs;
+	URL url;
+	Properties prop;
+	Logger log;
+	
+	public LlamadosWS(Properties prop) {
+		this.prop=prop;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(LlamadosWS.class);
+	}
+	
+	public StringHolder callWSingresos(ZefiCeDoctoFiscalIng Fiscaling,ZefiCeDoctoRelIng Toreling,ZefiCeDoctoIng doctoing,String respuesta) {
+		log.debug("Consumiendo WS");
+		objFiscaling=new ZefiCeDoctoFiscalIng();
+		doctoing=new ZefiCeDoctoIng();
+		objToreling=new ZefiCeDoctoRelIng();
+		exMensaje=new StringHolder();
+		exRetorno=new IntHolder();
+		try {
+			url=new URL(prop.getProperty("URL_INGRESOS"));
+			doctofiscaling[0]= objFiscaling;
+			doctoreling[0]=objToreling;
+			objWs.setUsername(prop.getProperty("USER_WS"));
+			objWs.setPassword(prop.getProperty("PASSWORD_WS"));
+			objWs.zffiCeActUuidIng(doctofiscaling, doctoreling, doctoing, exMensaje, exRetorno);
+			System.out.println(exMensaje.value);
+			System.out.println(exRetorno.value);
+			return exMensaje;
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println(e.getMessage());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println(e.getMessage());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.err.println(e.getMessage());
+		}
+		return null;
+	}
+}

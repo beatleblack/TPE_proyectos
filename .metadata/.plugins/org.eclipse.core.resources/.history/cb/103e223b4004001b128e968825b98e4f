@@ -1,0 +1,48 @@
+package tpe.procesos.entidades;
+
+public class ImDoctosap {
+
+	private String Ejerciciocxc;
+	private String Sociedadcxc;
+	private String Doctosapcxc;
+	private String Satelite;
+	private String Moneda;
+	private String Tipocambio;
+	public String getEjerciciocxc() {
+		return Ejerciciocxc;
+	}
+	public void setEjerciciocxc(String ejerciciocxc) {
+		Ejerciciocxc = ejerciciocxc;
+	}
+	public String getSociedadcxc() {
+		return Sociedadcxc;
+	}
+	public void setSociedadcxc(String sociedadcxc) {
+		Sociedadcxc = sociedadcxc;
+	}
+	public String getDoctosapcxc() {
+		return Doctosapcxc;
+	}
+	public void setDoctosapcxc(String doctosapcxc) {
+		Doctosapcxc = doctosapcxc;
+	}
+	public String getSatelite() {
+		return Satelite;
+	}
+	public void setSatelite(String satelite) {
+		Satelite = satelite;
+	}
+	public String getMoneda() {
+		return Moneda;
+	}
+	public void setMoneda(String moneda) {
+		Moneda = moneda;
+	}
+	public String getTipocambio() {
+		return Tipocambio;
+	}
+	public void setTipocambio(String tipocambio) {
+		Tipocambio = tipocambio;
+	}
+
+}

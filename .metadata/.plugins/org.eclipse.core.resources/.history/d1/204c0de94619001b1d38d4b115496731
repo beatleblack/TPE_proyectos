@@ -1,0 +1,30 @@
+package com.tpe.procesos;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+public class Inicia {
+
+	Map<String, String> mapKey;
+	Properties prop;
+	BufferedReader bfr;
+	File fl;
+	PrintWriter pwr;
+	FileWriter fwr;
+	
+	
+	public Inicia(Properties prop) {
+		this.prop=prop;
+	}
+	
+	public void proceso() {
+		mapKey=new HashMap<String, String>();
+		bfr=new BufferedReader(new FileReader(new File("")))
+	}
+}

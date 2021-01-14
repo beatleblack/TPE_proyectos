@@ -1,0 +1,10 @@
+package com.tpe.procesos;
+
+import java.util.Map;
+
+import com.tpe.entidades.CDR_C5;
+
+public class ListaDirectorio {
+
+	Map<String, String>
+}

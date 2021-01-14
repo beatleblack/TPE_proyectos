@@ -1,0 +1,93 @@
+package com.tpe.procesos;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+public class Inicia {
+
+	Map<String, String> mapKey;
+	Properties prop;
+	BufferedReader bfr;
+	File fl;
+	PrintWriter pwr;
+	FileWriter fwr;
+	String strln;
+	String strArr[];
+	ArrayList<File> arrFl;
+	
+	
+	public Inicia(Properties prop) {
+		this.prop=prop;
+	}
+	
+	public void proceso() {
+		cargaLlaves();
+		imprimeCDRs();
+	}
+	
+	public void cargaLlaves() {
+		mapKey=new HashMap<String, String>();
+		try {
+			bfr=new BufferedReader(new FileReader(new File("Z:/Data/TPE/DPL/CFU/C5_201020.data")));
+			while((strln=bfr.readLine())!=null) {
+				mapKey.put(strln, strln);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				bfr.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void imprimeCDRs() {
+//		arrFl=new ListaDirectorio().listaArchivos(prop.getProperty("PATH_CDRS")+prop.getProperty("FECHA"));
+		arrFl=new ListaDirectorio().listaArchivos("Z:/Data/TPE/DPL/CFU/201020/");
+		try {
+			fwr=new FileWriter("Z:/Data/TPE/DPL/CFU/archivo_cdrs.txt");
+			pwr=new PrintWriter(fwr);
+			for(File flTmp : arrFl) {
+				bfr=new BufferedReader(new FileReader(flTmp));
+				while((strln=bfr.readLine())!=null) {
+					strArr=strln.split("\\|");
+					if(mapKey.containsKey(strArr[19]) && strArr[0].equals("BYE")) {
+						pwr.println(strln);
+					}
+				}
+				bfr.close();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}finally {
+			
+			try {
+				pwr.close();
+				fwr.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}

@@ -1,0 +1,20 @@
+package com.tpe.procesos;
+
+import java.io.BufferedReader;
+import java.util.Properties;
+
+public class Proceso {
+
+	
+	Properties prop;
+	BufferedReader bfr=null;
+	File fl=null;
+	
+	public Proceso(Properties prop) {
+		this.prop=prop;
+	}
+	
+	public void reemplazaCadena() {
+		
+	}
+}

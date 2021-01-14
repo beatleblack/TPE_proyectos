@@ -1,0 +1,12 @@
+package com.tpe.procesos;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Map;
+
+import com.tpe.entidades.CDR_C5;
+
+public class ListaDirectorio {
+
+	ArrayList<File> arrFl;
+}

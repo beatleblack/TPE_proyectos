@@ -1,0 +1,8 @@
+package com.tpe.procesos;
+
+public class IniciaProcesos {
+
+	public void inicia() {
+		new ListaArchivos().getFiles("Z:/Data/TPE/B4C/proc/bkup/2020-10-01/");
+	}
+}

@@ -1,0 +1,25 @@
+package com.tpe.procesos;
+
+import java.io.File;
+import java.util.ArrayList;
+
+public class ListaArchivos {
+
+	public ListaArchivos() {
+
+	}
+	
+	ArrayList<File> arrFl;
+	File fl;
+	File ruta;
+	String [] files;
+	int count;
+	
+	public ArrayList<File> getFiles(String path){
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}

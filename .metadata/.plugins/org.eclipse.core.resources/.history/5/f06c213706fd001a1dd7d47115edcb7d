@@ -1,0 +1,12 @@
+package tpe.procesos;
+
+import java.util.Map;
+
+import tpe.entidades.Promedio;
+
+public class LeePromedio {
+
+	Map<String, Promedio> mapPromedio;
+	
+	
+}

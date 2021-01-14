@@ -1,0 +1,76 @@
+package com.tpe.procesos;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Properties;
+import mx.com.tp.tpsms.bean.DeletePortBindingStub;
+import mx.com.tp.tpsms.bean.ResponseVO;
+import mx.com.tp.tpsms.bean.UserVO;
+import javax.xml.rpc.Service;
+import org.apache.axis.AxisFault;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+
+public class EliminaIPTV {
+	UserVO user=null;
+	ResponseVO response=null;
+	URL endpointURL;
+	Service service;
+	Properties prop;
+	Logger log;
+	ArrayList<String> arrDns;
+	BufferedReader bfr;
+	
+	public EliminaIPTV(Properties prop) {
+		this.prop=prop;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(EliminaIPTV.class);
+	}
+	
+	public String iniciaProcesos(String dn) {
+		log.info("Iniciando cancelación del DN: "+dn);
+			if(dn.length()>10) {
+				return "Numero invalido longitud > 10: "+dn;
+			}else if(!validaNumero(dn)){
+				return "Numero invalido: "+dn;
+			}else {
+				return cancelaDNIPTV(dn);
+			}
+	}
+	
+	public boolean validaNumero(String dn) {
+		try {
+			Long.parseLong(dn);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+	
+	
+	public String cancelaDNIPTV(String dn) {
+		try {
+			endpointURL=new URL(prop.getProperty("URL_SERVICE"));
+			user=new UserVO(prop.getProperty("IP_SERVICE"), prop.getProperty("PASS_SERVICE"), prop.getProperty("USER_SERVICE"));
+			DeletePortBindingStub clearDN=new DeletePortBindingStub(endpointURL, service);
+			response=clearDN.clearDNSubscriber(user, dn);
+			log.info("Resultado del borrado: "+response.getMessage());
+			return response.getMessage();
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			log.error(e.getMessage());
+			return "ERROR_WS"+e.getMessage();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			log.error(e.getMessage());
+			return "ERROR_WS"+e.getMessage();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			log.error(e.getMessage());
+			return "ERROR_WS"+e.getMessage();
+		}
+	}
+}

@@ -1,0 +1,15 @@
+package com.tpe.utilities;
+
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+public class Email {
+	
+	static Properties prop;
+	static Logger log;
+
+	public static void main(String args[]) {
+		
+	}
+}

@@ -1,0 +1,22 @@
+package com.tpe.conexiones;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+import oracle.jdbc.internal.OraclePreparedStatement;
+
+public class ConsultasSAN {
+
+	Properties prop;
+	Logger log;
+	String cadenaCon;
+	Connection dbConn=null;
+	OraclePreparedStatement stmt;
+	ResultSet rs=null;
+	public ConsultasSAN(Properties prop) {
+		this.prop=prop;
+	}
+}

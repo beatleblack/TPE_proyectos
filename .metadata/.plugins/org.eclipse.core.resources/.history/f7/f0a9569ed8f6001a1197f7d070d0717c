@@ -1,0 +1,15 @@
+package com.tpe.procesos;
+
+import java.util.Properties;
+
+public class Proceso {
+
+	
+	Properties prop;
+	
+	public Proceso(Properties prop) {
+		this.prop=prop;
+	}
+	
+	public void 
+}

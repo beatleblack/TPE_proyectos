@@ -1,0 +1,105 @@
+package com.tpe.conexiones;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Vector;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import com.totalplay.herramientas.Fechas;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
+
+public class SFTPconexion {
+	
+	Properties prop;
+	Logger log;
+	Session session=null;
+	Channel channel=null;
+	JSch jsch=null;
+	private int port;
+	private String user;
+	private String pass;
+	private String host;
+	private String flujo;
+	File fl;
+	Vector<ChannelSftp.LsEntry> archivosSFTP=null;
+	ArrayList<String> arrFlDescargados;
+	
+
+	public SFTPconexion(Properties prop,String flujo) {
+		this.prop=prop;
+		this.flujo=flujo;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(SFTPconexion.class);
+		port=Integer.parseInt(prop.getProperty(flujo+"_PUERTO_SFTP"));
+		user=prop.getProperty(flujo+"_USER_SFTP");
+		pass=prop.getProperty(flujo+"_PASS_SFTP");
+		pass=prop.getProperty(flujo+"_HOST_SFTP");
+		jsch=new JSch();
+		try {
+			session=jsch.getSession(user, host, port);
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.setConfig("PreferredAuthentications","publickey,keyboard-interactive,password");
+			session.setPassword(pass);
+			session.connect();
+		} catch (JSchException e) {
+			// TODO Auto-generated catch block
+			log.fatal("Error al generar conexion SFTP: "+e.getMessage());
+			System.exit(0);
+		}
+		log.info("Conexion SFTP hacia "+flujo+" correcta.");
+	}
+	
+	protected void listaArchivosSFTP() {
+		DB_procesos obBD=new DB_procesos(prop);
+		ChannelSftp sftpChannel=(ChannelSftp)channel;
+		try {
+			sftpChannel.cd("/133/cdrs/bss-cbs/"+new Fechas(prop).sumaHoras("yyyyMMdd", new Fechas(prop).getToday("yyyyMMdd"), -24));
+			log.info("Obteniendo archivos de la ruta: "+new Fechas(prop).sumaHoras("yyyyMMdd", new Fechas(prop).getToday("yyyyMMdd"), -24));
+			archivosSFTP=sftpChannel.ls("*add");
+			arrFlDescargados=new ArrayList<String>();
+			if(archivosSFTP!=null || archivosSFTP.size()<1) {
+				for(ChannelSftp.LsEntry file : archivosSFTP) {
+					log.debug("Archivo encontrado: "+file.getFilename());
+					if(file.getAttrs().isDir()) {
+						log.info("Directorio omitido: "+file.getFilename());
+					}else {
+						if(!obBD.consultaArchivo(file.getFilename())) {
+							sftpChannel.get(file.getFilename(),prop.getProperty(flujo+"_RUTA_DESCARGA"));
+							fl=new File("");
+							arrFlDescargados.add(file.getFilename());
+						}
+					}
+				}
+			}
+			archivosSFTP=null;
+			sftpChannel.cd("/133/cdrs/bss-cbs/"+new Fechas(prop).getToday("yyyyMMdd"));
+			log.info("Obteniendo archivos de la ruta: "+new Fechas(prop).getToday("yyyyMMdd"));
+			arrFlDescargados=new ArrayList<String>();
+			if(archivosSFTP!=null || archivosSFTP.size()<1) {
+				for(ChannelSftp.LsEntry file : archivosSFTP) {
+					log.debug("Archivo encontrado: "+file.getFilename());
+					if(file.getAttrs().isDir()) {
+						log.info("Directorio omitido: "+file.getFilename());
+					}else {
+						if(!obBD.consultaArchivo(file.getFilename())) {
+							sftpChannel.get(file.getFilename(),prop.getProperty(flujo+"_RUTA_DESCARGA"));
+							arrFlDescargados.add(file.getFilename());
+						}
+					}
+				}
+			}
+		} catch (SftpException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+}

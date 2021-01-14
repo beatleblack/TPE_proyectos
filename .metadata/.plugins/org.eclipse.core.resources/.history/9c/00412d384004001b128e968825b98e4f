@@ -1,0 +1,67 @@
+package tpe.procesos.entidades;
+
+public class ImDoctorel {
+	private String Ejerciciodoctorel;
+	private String Sociedaddoctorel;
+	private String Doctosapdoctorel;
+	private String Foliosatelite;
+	private String Totaldoctorel;
+	private String Tipodoctorel;
+	private String Gendoctorel1;
+	private String Gendoctorel2;
+	private String Gendoctorel3;
+	public String getEjerciciodoctorel() {
+		return Ejerciciodoctorel;
+	}
+	public void setEjerciciodoctorel(String ejerciciodoctorel) {
+		Ejerciciodoctorel = ejerciciodoctorel;
+	}
+	public String getSociedaddoctorel() {
+		return Sociedaddoctorel;
+	}
+	public void setSociedaddoctorel(String sociedaddoctorel) {
+		Sociedaddoctorel = sociedaddoctorel;
+	}
+	public String getDoctosapdoctorel() {
+		return Doctosapdoctorel;
+	}
+	public void setDoctosapdoctorel(String doctosapdoctorel) {
+		Doctosapdoctorel = doctosapdoctorel;
+	}
+	public String getFoliosatelite() {
+		return Foliosatelite;
+	}
+	public void setFoliosatelite(String foliosatelite) {
+		Foliosatelite = foliosatelite;
+	}
+	public String getTotaldoctorel() {
+		return Totaldoctorel;
+	}
+	public void setTotaldoctorel(String totaldoctorel) {
+		Totaldoctorel = totaldoctorel;
+	}
+	public String getTipodoctorel() {
+		return Tipodoctorel;
+	}
+	public void setTipodoctorel(String tipodoctorel) {
+		Tipodoctorel = tipodoctorel;
+	}
+	public String getGendoctorel1() {
+		return Gendoctorel1;
+	}
+	public void setGendoctorel1(String gendoctorel1) {
+		Gendoctorel1 = gendoctorel1;
+	}
+	public String getGendoctorel2() {
+		return Gendoctorel2;
+	}
+	public void setGendoctorel2(String gendoctorel2) {
+		Gendoctorel2 = gendoctorel2;
+	}
+	public String getGendoctorel3() {
+		return Gendoctorel3;
+	}
+	public void setGendoctorel3(String gendoctorel3) {
+		Gendoctorel3 = gendoctorel3;
+	}
+}

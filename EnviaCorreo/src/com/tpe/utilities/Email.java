@@ -1,0 +1,24 @@
+package com.tpe.utilities;
+
+import java.io.File;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+public class Email {
+	
+	static Properties prop;
+	static Logger log;
+
+	public static void main(String args[]) {
+		if(args.length<1) {
+			System.err.println("ERROR0001: No se recibieron parametros de entrada.");
+			System.exit(0);
+		}
+		File fl=new File(args[0]);
+		if(!fl.exists() || fl.isDirectory()) {
+			System.err.println("ERROR0002: El properties no existe.");
+			System.exit(0);
+		}
+	}
+}

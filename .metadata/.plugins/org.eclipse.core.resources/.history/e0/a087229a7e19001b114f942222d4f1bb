@@ -1,0 +1,13 @@
+package com.tpe.procesos;
+
+import java.util.Properties;
+
+public class CFU_Main {
+
+	static Properties prop;
+	public static void main(String[] args) {
+		Properties prop=new Properties();
+		new Inicia(prop).proceso();
+	}
+
+}

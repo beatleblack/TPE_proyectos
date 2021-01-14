@@ -1,0 +1,11 @@
+package com.tpe.conexiones;
+
+import java.util.Properties;
+
+public class ConsultasSAN {
+
+	Properties prop;
+	public ConsultasSAN() {
+		// TODO Auto-generated constructor stub
+	}
+}

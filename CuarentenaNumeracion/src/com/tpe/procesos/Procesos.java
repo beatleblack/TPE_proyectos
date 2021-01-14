@@ -1,0 +1,120 @@
+package com.tpe.procesos;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import com.tpe.conexiones.ConsultasSAN;
+
+public class Procesos {
+
+	Properties prop;
+	Logger log;
+	Map<Long, Integer> mapProceso;
+	Map<Long,String> mapErrores;
+	Map<Long,String> mapProcesados;
+	int countProc;
+	int countOK;
+	int countTimeout;
+	String respuesta;
+	
+	public Procesos(Properties prop) {
+		this.prop=prop;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(Procesos.class);
+	}
+	
+	public void inicia() {
+		ConsultasSAN obSan=new ConsultasSAN(prop);
+		EliminaIPTV objIPTV=new EliminaIPTV(prop);
+		mapProceso=obSan.consultaDNs();
+		countProc=0;
+		countOK=0;
+		countTimeout=0;
+		int respuestaConsulta;
+		mapErrores=new HashMap<Long, String>();
+		mapProcesados=new HashMap<Long, String>();
+		if(mapProceso.size()<1 || mapProceso==null) {
+			log.info("No hay DNs por procesar... Proceso finalizado");
+			System.exit(0);
+		}
+		log.info("Total de DNs a procesar: "+mapProceso.size());
+		for(java.util.Map.Entry<Long, Integer> me : mapProceso.entrySet()) {
+			log.debug(me.getKey()+";"+me.getValue());
+			countProc++;
+			if(countProc%1000==0) {
+				log.info("DNs procesados "+ countProc +" de "+mapProceso.size());
+			}
+			respuestaConsulta=obSan.consultaEstatusNumero(me.getKey());
+			if(respuestaConsulta>=0 && respuestaConsulta<6) {
+				log.debug("DN con estatus <> 6");
+				mapProcesados.put(me.getKey(),"DN CON ESTATUS != 6    | Respuesta IPTV: No procesado :: Update Estatus=0");
+				obSan.updateCuarentenaError(me.getKey());
+			}else if(respuestaConsulta<0){
+				respuesta=objIPTV.cancelaDNIPTV(me.getKey()+"");
+				mapProcesados.put(me.getKey(),"DN INEXISTENTE TA_NUMEROS | Respuesta IPTV: "+ respuesta);
+			}else {
+				respuesta=objIPTV.cancelaDNIPTV(me.getKey()+"");
+				if(respuesta.contains("Connection timed out:")) {
+					log.error("No se procesó DN: "+me.getKey());
+					countTimeout++;
+					mapErrores.put(me.getKey(), respuesta);
+					if(countTimeout==Integer.parseInt(prop.getProperty("TIMEOUTS"))) {
+						log.fatal("Demasiados timeout, validar servicio de IPTV... Terminando ejecución");
+						imprimeResultado();
+						System.exit(0);
+					}
+				}else if(me.getValue()==1){
+					obSan.updateNumeros(me.getKey());
+					obSan.updateCuarentena(me.getKey());
+					log.debug("DN procesado con exito: "+me.getKey());
+					mapProcesados.put(me.getKey(),"DN LIBERADO TA_NUMEROS | Respuesta IPTV: "+ respuesta);
+				}else {
+					obSan.updateCuarentena(me.getKey());
+					mapProcesados.put(me.getKey(),"DN OMITIDO  TA_NUMEROS | Respuesta IPTV: "+ respuesta);
+				}
+			}
+			
+			
+		}
+		imprimeResultado();
+		log.info("Finaliza la ejecucion del proceso.");
+	}	
+	
+	public void imprimeResultado() {
+		int countProcOk=0;
+		int countProcOmitido=0;
+		int countNoProcesado=0;
+		log.info("#####################################################");
+		log.info("Resultados del proceso...");
+		log.info("#####################################################");
+		log.info("-------------------DNs no procesados---------------------");
+		if(mapErrores.size()==0) {
+			log.info("\t\tNo hubo ningún DN sin procesar");
+		}else {
+			for(Entry<Long, String> me:mapErrores.entrySet()) {
+				log.info("\t"+me.getKey()+" | "+me.getValue());
+			}
+		}
+		log.info("-------------DNs procesados correctamente---------------");
+		if(mapProcesados.size()==0) {
+			log.info("\t\tNo se proceso ningun DN");
+		}else {
+			for(Entry<Long, String> me:mapProcesados.entrySet()) {
+				if(me.getValue().contains("DN LIBERADO")) {
+					countProcOk++;
+				}else if(me.getValue().contains("OMITIDO")){
+					countProcOmitido++;
+				}else {
+					countNoProcesado++;
+				}
+				log.info("\t"+me.getKey()+" | "+me.getValue());
+			}
+		}
+		log.info("Total de DNs procesados: "+mapProcesados.size());
+		log.info("Total de DNs liberaros de TA_NUMEROS: "+countProcOk);
+		log.info("Total de DNs omitido  de TA_NUMEROS: "+countProcOmitido);
+		log.info("Total de DNs No Procesados: "+countNoProcesado);
+	}
+}

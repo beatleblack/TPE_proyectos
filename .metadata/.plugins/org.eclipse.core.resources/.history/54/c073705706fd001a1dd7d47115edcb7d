@@ -1,0 +1,21 @@
+package tpe.procesos;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import tpe.entidades.Promedio;
+
+public class LeePromedio {
+
+	Map<String, Promedio> mapPromedio;
+	BufferedReader bfr=null;
+	
+	
+	public void cargaArchivo() {
+		mapPromedio=new HashMap<String, Promedio>();
+		bfr=new BufferedReader(new FileReader(new File("")));
+	}
+}

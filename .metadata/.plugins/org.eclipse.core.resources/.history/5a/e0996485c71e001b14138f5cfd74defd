@@ -1,0 +1,32 @@
+package com.tpe.conexiones;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import oracle.jdbc.internal.OraclePreparedStatement;
+
+public class ConsultasSAN {
+
+	Properties prop;
+	Logger log;
+	String cadenaCon;
+	Connection dbConn=null;
+	OraclePreparedStatement stmt;
+	ResultSet rs=null;
+	public ConsultasSAN(Properties prop) {
+		this.prop=prop;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(ConsultasSAN.class);
+		cadenaCon=(prop.getProperty(base+"_DBDRIVER")+","
+				+prop.getProperty(base+"_DBURL")+","
+				+prop.getProperty(base+"_DBUSER")+","
+				+prop.getProperty(base+"_DBPASS")+","
+				+prop.getProperty(base+"_DB")+","
+				+prop.getProperty("FILELOG"));
+		log.info(cadenaCon);
+		dbConn=new ConexionPool().obtenConexion(cadenaCon, 1, 2);
+	}
+}

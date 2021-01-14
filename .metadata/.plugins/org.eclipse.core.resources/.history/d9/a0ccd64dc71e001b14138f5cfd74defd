@@ -1,0 +1,11 @@
+package com.tpe.conexiones;
+
+import java.util.Properties;
+
+public class ConsultasSAN {
+
+	Properties prop;
+	public ConsultasSAN(Properties prop) {
+		this.prop=prop;
+	}
+}

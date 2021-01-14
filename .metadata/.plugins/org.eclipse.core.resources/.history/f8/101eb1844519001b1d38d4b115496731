@@ -1,0 +1,11 @@
+package com.tpe.procesos;
+
+import java.util.Properties;
+
+public class Inicia {
+
+	Properties prop;
+	public Inicia(Properties prop) {
+		this.prop=prop;
+	}
+}

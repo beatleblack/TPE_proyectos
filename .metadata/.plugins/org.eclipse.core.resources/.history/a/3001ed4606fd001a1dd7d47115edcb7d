@@ -1,0 +1,15 @@
+package tpe.procesos;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import tpe.entidades.Promedio;
+
+public class LeePromedio {
+
+	Map<String, Promedio> mapPromedio;
+	
+	public void cargaArchivo() {
+		mapPromedio=new HashMap<String, Promedio>();
+	}
+}

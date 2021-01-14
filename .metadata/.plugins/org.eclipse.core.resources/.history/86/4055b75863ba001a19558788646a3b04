@@ -1,0 +1,22 @@
+package com.tpe.OperacionesBD;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.Properties;
+import org.apache.log4j.Logger;
+import oracle.jdbc.OraclePreparedStatement;
+
+public class DPL_BD {
+
+	Properties prop;
+	Logger log;
+	String cadenaCon=null;
+	String insertOciosas=null;
+	Connection dbConn=null;
+	OraclePreparedStatement stmt=null;
+	ResultSet rs=null;
+	
+	public DPL_BD() {
+		
+	}
+}

@@ -1,0 +1,181 @@
+package tpe.procesos.entidades;
+
+public class ImDoctofiscal {
+	private String Clasiffiscal;
+	private String Nocliente;
+	private String CtaMayor;
+	private String RfcEmisor;
+	private String RfcReceptor;
+	private String Compfiscal;
+	private String Compfiscalasoc;
+	private String Fechacompfiscal;
+	private String Totalcompfiscal;
+	private String Subtotalcompfiscal;
+	private String Tipocompfiscal;
+	private String Uuid;
+	private String Cfdserie;
+	private String Cfdnumfolio;
+	private String Taxid;
+	private String Pedimento;
+	private String Cove;
+	private String Contrato;
+	private String Gendoctofiscal1;
+	private String Gendoctofiscal2;
+	private String Gendoctofiscal3;
+	private String Gendoctofiscal4;
+	private String Gendoctofiscal5;
+	private String Gendecdoctofiscal1;
+	private String Gendecdoctofiscal2;
+	
+	
+	public String getClasiffiscal() {
+		return Clasiffiscal;
+	}
+	public void setClasiffiscal(String clasiffiscal) {
+		Clasiffiscal = clasiffiscal;
+	}
+	public String getNocliente() {
+		return Nocliente;
+	}
+	public void setNocliente(String nocliente) {
+		Nocliente = nocliente;
+	}
+	public String getCtaMayor() {
+		return CtaMayor;
+	}
+	public void setCtaMayor(String ctaMayor) {
+		CtaMayor = ctaMayor;
+	}
+	public String getRfcEmisor() {
+		return RfcEmisor;
+	}
+	public void setRfcEmisor(String rfcEmisor) {
+		RfcEmisor = rfcEmisor;
+	}
+	public String getRfcReceptor() {
+		return RfcReceptor;
+	}
+	public void setRfcReceptor(String rfcReceptor) {
+		RfcReceptor = rfcReceptor;
+	}
+	public String getCompfiscal() {
+		return Compfiscal;
+	}
+	public void setCompfiscal(String compfiscal) {
+		Compfiscal = compfiscal;
+	}
+	public String getCompfiscalasoc() {
+		return Compfiscalasoc;
+	}
+	public void setCompfiscalasoc(String compfiscalasoc) {
+		Compfiscalasoc = compfiscalasoc;
+	}
+	public String getFechacompfiscal() {
+		return Fechacompfiscal;
+	}
+	public void setFechacompfiscal(String fechacompfiscal) {
+		Fechacompfiscal = fechacompfiscal;
+	}
+	public String getTotalcompfiscal() {
+		return Totalcompfiscal;
+	}
+	public void setTotalcompfiscal(String totalcompfiscal) {
+		Totalcompfiscal = totalcompfiscal;
+	}
+	public String getSubtotalcompfiscal() {
+		return Subtotalcompfiscal;
+	}
+	public void setSubtotalcompfiscal(String subtotalcompfiscal) {
+		Subtotalcompfiscal = subtotalcompfiscal;
+	}
+	public String getTipocompfiscal() {
+		return Tipocompfiscal;
+	}
+	public void setTipocompfiscal(String tipocompfiscal) {
+		Tipocompfiscal = tipocompfiscal;
+	}
+	public String getUuid() {
+		return Uuid;
+	}
+	public void setUuid(String uuid) {
+		Uuid = uuid;
+	}
+	public String getCfdserie() {
+		return Cfdserie;
+	}
+	public void setCfdserie(String cfdserie) {
+		Cfdserie = cfdserie;
+	}
+	public String getCfdnumfolio() {
+		return Cfdnumfolio;
+	}
+	public void setCfdnumfolio(String cfdnumfolio) {
+		Cfdnumfolio = cfdnumfolio;
+	}
+	public String getTaxid() {
+		return Taxid;
+	}
+	public void setTaxid(String taxid) {
+		Taxid = taxid;
+	}
+	public String getPedimento() {
+		return Pedimento;
+	}
+	public void setPedimento(String pedimento) {
+		Pedimento = pedimento;
+	}
+	public String getCove() {
+		return Cove;
+	}
+	public void setCove(String cove) {
+		Cove = cove;
+	}
+	public String getContrato() {
+		return Contrato;
+	}
+	public void setContrato(String contrato) {
+		Contrato = contrato;
+	}
+	public String getGendoctofiscal1() {
+		return Gendoctofiscal1;
+	}
+	public void setGendoctofiscal1(String gendoctofiscal1) {
+		Gendoctofiscal1 = gendoctofiscal1;
+	}
+	public String getGendoctofiscal2() {
+		return Gendoctofiscal2;
+	}
+	public void setGendoctofiscal2(String gendoctofiscal2) {
+		Gendoctofiscal2 = gendoctofiscal2;
+	}
+	public String getGendoctofiscal3() {
+		return Gendoctofiscal3;
+	}
+	public void setGendoctofiscal3(String gendoctofiscal3) {
+		Gendoctofiscal3 = gendoctofiscal3;
+	}
+	public String getGendoctofiscal4() {
+		return Gendoctofiscal4;
+	}
+	public void setGendoctofiscal4(String gendoctofiscal4) {
+		Gendoctofiscal4 = gendoctofiscal4;
+	}
+	public String getGendoctofiscal5() {
+		return Gendoctofiscal5;
+	}
+	public void setGendoctofiscal5(String gendoctofiscal5) {
+		Gendoctofiscal5 = gendoctofiscal5;
+	}
+	public String getGendecdoctofiscal1() {
+		return Gendecdoctofiscal1;
+	}
+	public void setGendecdoctofiscal1(String gendecdoctofiscal1) {
+		Gendecdoctofiscal1 = gendecdoctofiscal1;
+	}
+	public String getGendecdoctofiscal2() {
+		return Gendecdoctofiscal2;
+	}
+	public void setGendecdoctofiscal2(String gendecdoctofiscal2) {
+		Gendecdoctofiscal2 = gendecdoctofiscal2;
+	}
+}

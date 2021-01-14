@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;ContabilidadElectronica&apos;&#x0D;&#x0A;- Original project: &apos;ContabilidadElectronica&apos;&#x0D;&#x0A;- Original element: &apos;ContabilidadElectronica/src/org.example.www.ContabilidadElectronica&apos;" description="Delete element" element1="/src&lt;org.example.www.ContabilidadElectronica" element2="/src&lt;org.example.www" element3="/src&lt;org.example" element4="/src&lt;org" elements="4" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1601068924185" subPackages="false" version="1.0"/>
+</session>

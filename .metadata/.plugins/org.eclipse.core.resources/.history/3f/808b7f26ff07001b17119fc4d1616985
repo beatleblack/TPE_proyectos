@@ -1,0 +1,9 @@
+package com.tpe.procesos;
+
+public class ListaArchivos {
+
+	public public ListaArchivos() {
+		// TODO Auto-generated constructor stub
+		
+	}
+}

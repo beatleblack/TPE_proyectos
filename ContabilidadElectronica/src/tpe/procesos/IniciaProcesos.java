@@ -1,0 +1,128 @@
+package tpe.procesos;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import javax.xml.rpc.holders.StringHolder;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoFiscalIng;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoIng;
+import mc_style.functions.soap.sap.document.sap_com.ZefiCeDoctoRelIng;
+import tpe.procesos.conexiones.BD;
+import tpe.procesos.conexiones.LlamadosWS;
+import tpe.procesos.entidades.CONSULTA_B4C;
+
+public class IniciaProcesos {
+	
+	ZefiCeDoctoFiscalIng objFiscaling;
+	ZefiCeDoctoRelIng objToreling;
+	ZefiCeDoctoIng doctoing;
+	StringHolder exMensaje;
+	Properties prop;
+	String respuesta;
+	Logger log;
+	BD obBd;
+	CONSULTA_B4C b4c;
+	int countFac;
+	int countProcesadas;
+	int countOmitidas;
+	ArrayList<CONSULTA_B4C> arrB4C;
+	Map<Integer, CONSULTA_B4C> mapProsesar;
+	
+	public IniciaProcesos(Properties prop) {
+		this.prop=prop;
+		PropertyConfigurator.configure(prop.getProperty("FILELOG"));
+		log=Logger.getLogger(IniciaProcesos.class);
+	}
+
+	public void inicia() {
+		obBd=new BD(prop);
+		consultaFacturas();
+		for(Entry<Integer, CONSULTA_B4C> me : mapProsesar.entrySet()) {
+			log.info(me.getKey()+":"+me.getValue().getFOLIO()+":"+me.getValue().getRESPONSE_SAP());
+			obBd.insertProcesados(me.getValue());
+		}
+		//CerrarConexion
+	}
+	
+	private void consultaFacturas() {
+		arrB4C=obBd.consultaB4C();
+		log.info("Total de facturas a validad: "+arrB4C.size());
+		mapProsesar=new HashMap<Integer, CONSULTA_B4C>();
+		countFac=0;
+		countOmitidas=0;
+		countProcesadas=0;
+		for(int i=0;i<arrB4C.size();i++) {
+//			log.debug(obBd.consultaProcesados(Integer.parseInt(arrB4C.get(i).getID_FACTURA())));
+			if(obBd.consultaProcesados(Integer.parseInt(arrB4C.get(i).getID_FACTURA()))) {
+				b4c=arrB4C.get(i);
+//				imprimeOBJ(b4c);
+				objFiscaling=new ZefiCeDoctoFiscalIng();
+				objFiscaling.setClasiffiscal(b4c.getCLASIFFISCAL());
+				objFiscaling.setNocliente(b4c.getCLAVE_REFERENCIA());
+				objFiscaling.setCtaMayor(prop.getProperty("CTA_MAYOR"));
+				objFiscaling.setRfcEmisor(prop.getProperty("RFC_TP"));
+				objFiscaling.setRfcReceptor(b4c.getRFC());
+				objFiscaling.setCompfiscal(b4c.getFOLIO());
+				objFiscaling.setCompfiscalasoc("");
+				objFiscaling.setFechacompfiscal(b4c.getFECHA_FACTURA_FISCAL());
+				objFiscaling.setTotalcompfiscal(b4c.getTOTAL());
+				objFiscaling.setSubtotalcompfiscal(b4c.getIMPORTE());
+				objFiscaling.setTipocompfiscal(b4c.getTIPOCOMPROBANTE());
+				objFiscaling.setUuid(b4c.getCFDI_UUID());
+				objFiscaling.setCfdserie("");
+				objFiscaling.setCfdnumfolio("");
+				objFiscaling.setTaxid("");
+				objFiscaling.setPedimento("");
+				objFiscaling.setCove("");
+				objFiscaling.setContrato("");
+				objFiscaling.setGendoctofiscal1("");
+				objFiscaling.setGendoctofiscal2("");
+				objFiscaling.setGendoctofiscal3("");
+				objFiscaling.setGendoctofiscal4("");
+				objFiscaling.setGendoctofiscal5("");
+				objFiscaling.setGendecdoctofiscal1("");
+				objFiscaling.setGendecdoctofiscal2("");
+				
+				objToreling=new ZefiCeDoctoRelIng();
+				objToreling.setDoctosapdoctorel("");
+				objToreling.setEjerciciodoctorel("");
+				objToreling.setFoliosatelite("");
+				objToreling.setGendoctorel1("");
+				objToreling.setGendoctorel2("");
+				objToreling.setGendoctorel3("");
+				objToreling.setSociedaddoctorel("");
+				objToreling.setTipodoctorel("");
+				objToreling.setTotaldoctorel("");
+				
+				doctoing=new ZefiCeDoctoIng();
+				doctoing.setEjerciciocxc(b4c.getEJERCICIOFISCAL());
+				doctoing.setSociedadcxc(prop.getProperty("SOCIEDADCXC"));
+				doctoing.setDoctosapcxc(b4c.getFOLIO_POLIZA());
+				doctoing.setSatelite(prop.getProperty("SATELITE"));
+				doctoing.setMoneda(b4c.getMONEDA());
+				doctoing.setTipocambio("");
+				
+				log.debug("Iniciando llamado WS");
+				exMensaje=new LlamadosWS(prop).callWSingresos(objFiscaling,objToreling,doctoing,respuesta);
+				b4c.setRESPONSE_SAP(exMensaje.value);
+				log.debug("ExMensaje: "+exMensaje.value);
+				log.debug("Respuesta: "+respuesta);
+				b4c.setESTATUS("1");
+				mapProsesar.put(Integer.parseInt(b4c.getID_FACTURA()), b4c);
+			}else {
+				countOmitidas++;
+			}
+		}
+	}
+	
+	public void imprimeOBJ(CONSULTA_B4C obj) {
+		log.debug(obj.getCFDI_UUID());
+		log.debug(obj.getCLASIFFISCAL());
+		log.debug(obj.getEJERCICIOFISCAL());
+		log.debug(obj.getFOLIO_POLIZA());
+	}
+}
