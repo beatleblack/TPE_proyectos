@@ -1,0 +1,38 @@
+package com.tpe.ws;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
+
+import org.apache.axis.AxisFault;
+import org.tempuri.ArrResultAgilController;
+import org.tempuri.TpPro2020SoapStub;
+
+public class ConsultaConsumosAR {
+	
+	URL url=null;
+	String fechaInicio=null;
+	String fechaFin=null;
+	String numeroserieAR=null;
+	ArrResultAgilController arrResult=null;
+
+	public void consulta() {
+		fechaInicio="";
+		fechaFin="";
+		numeroserieAR="";
+		try {
+			url=new URL("");
+			TpPro2020SoapStub objConsulta=new TpPro2020SoapStub(url, null);
+			arrResult=objConsulta.consumosAltanTpPro(fechaInicio, fechaFin, numeroserieAR);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

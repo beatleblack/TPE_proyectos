@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="org.eclipse.jst.ws.client.type.java">
+		<item value="http://10.213.4.17/TpUniversal/TpPro2020.asmx?wsdl"/>
 		<item value="file:///D:/Dev/WSDLs/zbn_zffi_ce_act_uuid_ing.html"/>
 		<item value="file:/D:/Dev/WSDLs/zbn_zffi_ce_act_uuid_ing.xml"/>
 		<item value="http://10.216.8.198:80/soa-infra/services/SalesForce/CancelIMSHuawei/cancelimshuawei_client_ep?wsdl"/>

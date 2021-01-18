@@ -50,7 +50,7 @@
 <fullyQualifiedTypeName name="oracle.jdbc.internal.OraclePreparedStatement"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="tpe.procesos.IniciaProcesos"/>
-<fullyQualifiedTypeName name="java.util.Properties"/>
 <fullyQualifiedTypeName name="org.apache.log4j.Logger"/>
 <fullyQualifiedTypeName name="tpe.procesos.conexiones.LlamadosWS"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
 </qualifiedTypeNameHistroy>

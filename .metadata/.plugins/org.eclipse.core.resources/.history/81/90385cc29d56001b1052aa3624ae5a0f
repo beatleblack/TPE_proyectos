@@ -1,0 +1,12 @@
+package com.tpe.ws;
+
+import java.net.URL;
+
+public class ConsultaConsumosAR {
+	
+	URL url;
+
+	public void consulta() {
+		url=new URL("");
+	}
+}

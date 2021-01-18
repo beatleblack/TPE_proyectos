@@ -1,0 +1,18 @@
+package com.tpe.ws;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class ConsultaConsumosAR {
+	
+	URL url=null;
+
+	public void consulta() {
+		try {
+			url=new URL("");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
